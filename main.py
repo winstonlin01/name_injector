@@ -13,7 +13,7 @@ class name_injector(Star):
         """可选择实现异步的插件初始化方法，当实例化该插件类之后会自动调用该方法。"""
 
     # 注册指令的装饰器。指令名为 helloworld。注册成功后，发送 `/helloworld` 就会触发这个指令，并回复 `你好, {user_name}!`
-    @filter.on_llm_request(20000000)
+    @filter.on_llm_request()
     async def add_context_prompt(self, event: AstrMessageEvent, req: ProviderRequest):
         """
         在 LLM 请求发起前，将当前发送者的用户名植入 System Prompt
