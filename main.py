@@ -13,14 +13,25 @@ class name_injector(Star):
         """可选择实现异步的插件初始化方法，当实例化该插件类之后会自动调用该方法。"""
 
     # 注册指令的装饰器。指令名为 helloworld。注册成功后，发送 `/helloworld` 就会触发这个指令，并回复 `你好, {user_name}!`
-    @filter.on_llm_request()
+    @filter.on_llm_request(20000000)
     async def add_context_prompt(self, event: AstrMessageEvent, req: ProviderRequest):
-        """这是一个 hello world 指令""" # 这是 handler 的描述，将会被解析方便用户了解插件内容。建议填写。
+        """
+        在 LLM 请求发起前，将当前发送者的用户名植入 System Prompt
+        """
+        # 1. 获取发送者姓名
         user_name = event.get_sender_name()
-        message_str = event.message_str # 用户发的纯文本消息字符串
-        message_chain = event.get_messages() # 用户所发的消息的消息链 # from astrbot.api.message_components import *
-        logger.info(message_chain)
-        req.system_prompt += f"\n{user_name说的}"
+        
+        # 2. 构造注入文本 (根据需要调整格式，例如 "当前对话用户是：xxx")
+        user_context = f"\n[User Context: Current user is {user_name}]"
+        
+        # 3. 追加到系统提示词
+        if req.system_prompt:
+            req.system_prompt += user_context
+        else:
+            req.system_prompt = user_context
+
+        # 日志打印（可选，用于调试确认）
+        logger.debug(f"已为用户 {user_name} 注入上下文")
 
     async def terminate(self):
         """可选择实现异步的插件销毁方法，当插件被卸载/停用时会调用。"""
