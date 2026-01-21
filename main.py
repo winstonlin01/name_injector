@@ -1,8 +1,12 @@
 from astrbot.api.event import filter, AstrMessageEvent, MessageEventResult
 from astrbot.api.star import Context, Star, register
 from astrbot.api import logger
+from astrbot.api.event import filter, AstrMessageEvent
+from astrbot.api.star import Context, Star, register, StarTools
+from astrbot.api.provider import LLMResponse, ProviderRequest
+from astrbot.api import AstrBotConfig
 
-@register("name_injector", "winstonlin01", "一个简单的 Hello World 插件", "1.0.0")
+@register("name_injector", "winstonlin01", "name_injector", "1.0.0")
 class name_injector(Star):
     def __init__(self, context: Context):
         super().__init__(context)
