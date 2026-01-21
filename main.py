@@ -21,17 +21,9 @@ class name_injector(Star):
         # 1. 获取发送者姓名
         user_name = event.get_sender_name()
         
-        # 2. 构造注入文本 (根据需要调整格式，例如 "当前对话用户是：xxx")
-        user_context = f"\n[User Context: Current user is {user_name}]"
-        
-        # 3. 追加到系统提示词
-        if req.system_prompt:
-            req.system_prompt += user_context
-        else:
-            req.system_prompt = user_context
-        req.extra_user_content_parts.append(user_name)
-        # 日志打印（可选，用于调试确认）
-        logger.debug(f"已为用户 {user_name} 注入上下文")
+       async def my_custom_hook_1(self, event: AstrMessageEvent, req: ProviderRequest): # 请注意有三个参数
+    print(req) # 打印请求的文本
+    req.system_prompt += f"user_name"
 
     async def terminate(self):
         """可选择实现异步的插件销毁方法，当插件被卸载/停用时会调用。"""
