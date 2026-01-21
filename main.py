@@ -21,9 +21,7 @@ class name_injector(Star):
         # 1. 获取发送者姓名
         user_name = event.get_sender_name()
         
-
-        print(req) # 打印请求的文本
-        req.system_prompt += f"user_name"
+        event.message_obj.message_str += f"{user_name}"+event.message_obj.message_str
 
     async def terminate(self):
         """可选择实现异步的插件销毁方法，当插件被卸载/停用时会调用。"""
