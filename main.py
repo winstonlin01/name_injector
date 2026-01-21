@@ -21,9 +21,9 @@ class name_injector(Star):
         # 1. 获取发送者姓名
         user_name = event.get_sender_name()
         
-       async def my_custom_hook_1(self, event: AstrMessageEvent, req: ProviderRequest): # 请注意有三个参数
-    print(req) # 打印请求的文本
-    req.system_prompt += f"user_name"
+
+        print(req) # 打印请求的文本
+        req.system_prompt += f"user_name"
 
     async def terminate(self):
         """可选择实现异步的插件销毁方法，当插件被卸载/停用时会调用。"""
