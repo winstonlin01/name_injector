@@ -29,7 +29,7 @@ class name_injector(Star):
             req.system_prompt += user_context
         else:
             req.system_prompt = user_context
-
+        req.extra_user_content_parts.append(user_name)
         # 日志打印（可选，用于调试确认）
         logger.debug(f"已为用户 {user_name} 注入上下文")
 
